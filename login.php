@@ -43,6 +43,11 @@ if ($_SESSION["level"] != null) {
                 <input type="text" placeholder="Nome de usuário" name="username">
                 <input type="password" placeholder="Senha" name="password">
                 <button type="submit">Entrar</button>
+                <?php
+                    if ($_GET["error"] == "wrongcredentials") {
+                        echo "<span class='login-error'>Credenciais inválidas</p>";
+                    }
+                    ?>
             </form>
         </main>
 </body>

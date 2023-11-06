@@ -209,3 +209,10 @@ main {
   font-size: 18px;
   width: 300px;
 }
+.login-error {
+  width: 300px;
+  background-color: #db3737;
+  text-align: center;
+  color: white;
+  padding: 8px 0;
+}
