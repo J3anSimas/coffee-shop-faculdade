@@ -46,13 +46,13 @@ $coffees[7] = new coffee("Expresso Cremoso", "TRADICIONAL", "Café expresso trad
                 <a href="/" class="logo">Simas Café</a>
                 <nav>
                     <?php
-                    if ($_SESSION["user"] == null) {
+                    if (isset($_SESSION['user'])) {
                         ?>
-                        <a href='login.php'>Faça Login</a>
+                        <a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>
                     <?php
                     } else {
                     ?>
-                        <a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>
+                        <a href='login.php'>Faça Login</a>
                     <?php
                     }
                     ?>

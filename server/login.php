@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION["level"] != null) {
+if (isset($_SESSION["level"])) {
     if ($_SESSION["level"] == "admin") {
         header("Location: admin.php");
     } else {
@@ -28,10 +28,14 @@ if ($_SESSION["level"] != null) {
                 <a href="/" class="logo">Simas Café</a>
                 <nav>
                     <?php
-                    if ($_SESSION["user"] == null) {
-                        echo "<a href='login.php'>Faça Login</a>";
+                    if (isset($_SESSION['user'])) {
+                        ?>
+                        <a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>
+                    <?php
                     } else {
-                        echo "<a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>";
+                    ?>
+                        <a href='login.php'>Faça Login</a>
+                    <?php
                     }
                     ?>
                 </nav>
@@ -44,10 +48,12 @@ if ($_SESSION["level"] != null) {
                 <input type="password" placeholder="Senha" name="password">
                 <button type="submit">Entrar</button>
                 <?php
-                    if ($_GET["error"] == "wrongcredentials") {
-                        echo "<span class='login-error'>Credenciais inválidas</p>";
+                    if (isset($_GET["error"]) and $_GET["error"] == "wrongcredentials") {
+                ?>
+                <span class='login-error'>Credenciais inválidas</p>
+                <?php
                     }
-                    ?>
+                ?>
             </form>
         </main>
 </body>
