@@ -1,30 +1,5 @@
 <?php
 session_start();
-class coffee
-{
-    public $name;
-    public $category;
-    public $description;
-    public $price;
-    public $image;
-    function __construct($name, $category, $description, $price, $image)
-    {
-        $this->name = $name;
-        $this->category = $category;
-        $this->description = $description;
-        $this->price = $price;
-        $this->image = $image;
-    }
-}
-$coffees = array();
-$coffees[0] = new coffee("Expresso Americano", "TRADICIONAL", "Expresso diluído, menos intenso que o tradicional", 9.90, "images/coffees/Americano.png");
-$coffees[1] = new coffee("Árabe", "ESPECIAL", "Bebida preparada com grãos de café árabe e especiarias", 9.90, "images/coffees/Arabe.png");
-$coffees[2] = new coffee("Café com Leite", "COM LEITE", "Meio a meio de expresso tradicional com leite vaporizado", 9.90, "images/coffees/CafeComLeite.png");
-$coffees[3] = new coffee("Expresso Gelado", "GELADO", "Bebida preparada com café expresso e cubos de gelo", 9.90, "images/coffees/CafeGelado.png");
-$coffees[4] = new coffee("Capuccino", "COM LEITE", "Bebida com canela feita de doses iguais de café, leite e espuma", 9.90, "images/coffees/Capuccino.png");
-$coffees[5] = new coffee("Chocolate Quente", "COM LEITE", "Bebida feita com chocolate dissolvido no leite quente e café", 9.90, "images/coffees/ChocolateQuente.png");
-$coffees[6] = new coffee("Cubano", "ALCOÓLICO", "Drink gelado de café expresso com rum, creme de leite e hortelã", 9.90, "images/coffees/Cubano.png");
-$coffees[7] = new coffee("Expresso Cremoso", "TRADICIONAL", "Café expresso tradicional com espuma cremosa", 9.90, "images/coffees/ExpressoCremoso.png");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -47,7 +22,7 @@ $coffees[7] = new coffee("Expresso Cremoso", "TRADICIONAL", "Café expresso trad
                 <nav>
                     <?php
                     if (isset($_SESSION['user'])) {
-                        ?>
+                    ?>
                         <a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>
                     <?php
                     } else {
@@ -91,111 +66,34 @@ $coffees[7] = new coffee("Expresso Cremoso", "TRADICIONAL", "Café expresso trad
                 <h2>Nossos cafés</h2>
                 <ul class="coffees-list">
                     <?php
-                    for ($i = 0; $i < count($coffees); $i++) {
-                        echo "<li>
-                        <img src='" . $coffees[$i]->image . "' alt=''>
-                        <span class='coffee-category'>" . $coffees[$i]->category . "</span>
-                        <h2>" . $coffees[$i]->name . "</h2>
-                        <p class='coffee-description'>" . $coffees[$i]->description . "</p>
-                        <span class='add-to-cart-container'>
-                            <span class='price-container'>
-                                <span>R$</span>
-                                <span>" . sprintf('%0.2f', $coffees[$i]->price) . "</span>
+                    try {
+                        require_once "includes/dbh.inc.php";
+                        $query = "select ID, NAME, DESCRIPTION, PRICE, CATEGORY, IMAGE from COFFEES;";
+                        $stmt = $pdo->prepare($query);
+                        $stmt->execute();
+                        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($results as $row) {
+                            echo "<li>
+                            <img src='" . $row["IMAGE"] . "' alt=''>
+                            <span class='coffee-category'>" . $row["CATEGORY"] . "</span>
+                            <h2>" . $row["NAME"] . "</h2>
+                            <p class='coffee-description'>" . $row["DESCRIPTION"] . "</p>
+                            <span class='add-to-cart-container'>
+                                <span class='price-container'>
+                                    <span>R$</span>
+                                    <span>" . sprintf('%0.2f', $row["PRICE"]) . "</span>
+                                </span>
+                                <button><img src='images/icons/cart.svg' /></button>
                             </span>
-                            <button><img src='images/icons/cart.svg' /></button>
-                        </span>
-                        </li>";
+                            </li>";
+                        }
+                        $pdo = null;
+                        $stmt = null;
+                        die();
+                    } catch (PDOException $e) {
+                        echo "Failed to fetch coffees: " . $e->getMessage() . "";
                     }
                     ?>
-                    <!-- <li>
-                        <img src="images/coffees/Arabe.png" alt="">
-                        <span class="coffee-category">ESPECIAL</span>
-                        <h2>Árabe</h2>
-                        <p class="coffee-description">Bebida preparada com grãos de café árabe e especiarias</p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li>
-                    <li>
-                        <img src="images/coffees/CafeComLeite.png" alt="">
-                        <span class="coffee-category">COM LEITE</span>
-                        <h2>Café com Leite</h2>
-                        <p class="coffee-description">Meio a meio de expresso tradicional com leite vaporizado</p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li>
-                    <li>
-                        <img src="images/coffees/CafeGelado.png" alt="">
-                        <span class="coffee-category">GELADO</span>
-                        <h2>Expresso Gelado</h2>
-                        <p class="coffee-description">Bebida preparada com café expresso e cubos de gelo</p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li>
-                    <li> <img src="images/coffees/Capuccino.png" alt="">
-                        <span class="coffee-category">COM LEITE</span>
-                        <h2>Capuccino</h2>
-                        <p class="coffee-description">Bebida com canela feita de doses iguais de café, leite e espuma
-                        </p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li>
-                    <li> <img src="images/coffees/ChocolateQuente.png" alt="">
-                        <span class="coffee-category">COM LEITE</span>
-                        <h2>Chocolate Quente</h2>
-                        <p class="coffee-description">Bebida feita com chocolate dissolvido no leite quente e café</p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li>
-                    <li> <img src="images/coffees/Cubano.png" alt="">
-                        <span class="coffee-category">ALCOÓLICO</span>
-                        <h2>Cubano</h2>
-                        <p class="coffee-description">Drink gelado de café expresso com rum, creme de leite e hortelã
-                        </p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li>
-                    <li> <img src="images/coffees/ExpressoCremoso.png" alt="">
-                        <span class="coffee-category">TRADICIONAL</span>
-                        <h2>Expresso Cremoso</h2>
-                        <p class="coffee-description">Café expresso tradicional com espuma cremosa</p>
-                        <span class="add-to-cart-container">
-                            <span class="price-container">
-                                <span>R$</span>
-                                <span>9,90</span>
-                            </span>
-                            <button><img src="images/icons/cart.svg" /></button>
-                        </span>
-                    </li> -->
                 </ul>
             </div>
         </main>

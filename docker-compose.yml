@@ -1,6 +1,6 @@
 services:
   web:
-    image: php:8.0-apache
+    build: .
     ports:
       - "8082:80"
     volumes:
@@ -9,12 +9,12 @@ services:
   db:
     image: mysql:latest
     ports:
-      - "3306:3306"
-    volunes:
+        - "3307:3306"
+    volumes:
       - ./db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=database
+      - MYSQL_DATABASE=coffeeshop
       - MYSQL_USER=user
       - MYSQL_PASSWORD=secret
     
