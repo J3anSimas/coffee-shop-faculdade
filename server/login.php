@@ -18,7 +18,7 @@ if (isset($_SESSION["level"])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Document</title>
+    <title>Simas Café | Login</title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@ if (isset($_SESSION["level"])) {
                 <nav>
                     <?php
                     if (isset($_SESSION['user'])) {
-                        ?>
+                    ?>
                         <a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>
                     <?php
                     } else {
@@ -42,18 +42,18 @@ if (isset($_SESSION["level"])) {
             </div>
         </header>
         <main>
-            <form class="login-form" method="post" action="auth.php">
+            <form class="login-form" method="post" action="includes/auth.inc.php">
                 <h2>Login</h2>
                 <input type="text" placeholder="Nome de usuário" name="username">
                 <input type="password" placeholder="Senha" name="password">
                 <button type="submit">Entrar</button>
                 <?php
-                    if (isset($_GET["error"]) and $_GET["error"] == "wrongcredentials") {
+                if (isset($_GET["error"]) and $_GET["error"] == "wrongcredentials") {
                 ?>
-                <span class='login-error'>Credenciais inválidas</p>
-                <?php
-                    }
-                ?>
+                    <span class='login-error'>Credenciais inválidas</p>
+                    <?php
+                }
+                    ?>
             </form>
         </main>
 </body>
