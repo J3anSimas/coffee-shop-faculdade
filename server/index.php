@@ -16,7 +16,7 @@ session_start();
 
 <body>
     <div class="container">
-        <header>
+        <!-- <header>
             <div class="content">
                 <a href="/" class="logo">Simas Café</a>
                 <nav>
@@ -33,7 +33,10 @@ session_start();
                     ?>
                 </nav>
             </div>
-        </header>
+        </header> -->
+        <?php
+        include "templates/header.php";
+        ?>
         <main>
             <div class="cover">
                 <div class="first-column">

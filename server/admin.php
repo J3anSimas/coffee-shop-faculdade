@@ -1,9 +1,7 @@
 <?php
 session_start();
-if ($_SESSION["level"] != "admin") {
-    echo "Você não tem permissão para acessar esta página<br>";
-    echo $_SESSION["level"];
-    // header("Location: login.php");
+if ($_SESSION["level"] != "A") {
+    header("Location: login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -21,14 +19,9 @@ if ($_SESSION["level"] != "admin") {
 
 <body>
     <div class="container">
-        <header>
-            <div class="content">
-                <a href="/" class="logo">Simas Café</a>
-                <nav>
-                    <a href='logout.php'>Sair</a>
-                </nav>
-            </div>
-        </header>
+        <?php
+        include "templates/header.php";
+        ?>
         <main>
             <h1>Admin Dashboard</h1>
         </main>
