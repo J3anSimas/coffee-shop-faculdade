@@ -152,6 +152,7 @@ main {
   border: none;
   padding: 8px;
   border-radius: 6px;
+  cursor: pointer;
 }
 .coffees-list li .add-to-cart-container button img {
   width: 24px;
@@ -208,6 +209,7 @@ main {
   padding: 12px;
   font-size: 18px;
   width: 300px;
+  cursor: pointer;
 }
 .login-error {
   width: 300px;
