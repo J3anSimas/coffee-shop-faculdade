@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION["level"] != "A") {
+if ($_SESSION["USER"]["LVL"] != "A") {
     header("Location: login.php");
 }
 ?>
@@ -14,7 +14,7 @@ if ($_SESSION["level"] != "A") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Admin</title>
+    <title>Simas Café | Admin</title>
 </head>
 
 <body>
