@@ -15,7 +15,7 @@ INSERT INTO USERS (
  LVL
 ) VALUES (
 	'jeansimas',
-    '$2y$10$XDZ7xhdjym3PgWcQztc5POmyhHChzGn24E0O4tv8EBP4pJwVT5HOC', --SENHA: senha
+    '$2y$10$XDZ7xhdjym3PgWcQztc5POmyhHChzGn24E0O4tv8EBP4pJwVT5HOC', 
     'jean@gmail.com',
     'A'
 );
@@ -57,18 +57,18 @@ CREATE TABLE ORDERS_COFFEES (
 -- $coffees[6] = new coffee("Cubano", "ALCOÓLICO", "Drink gelado de café expresso com rum, creme de leite e hortelã", 9.90, "images/coffees/Cubano.png");
 -- $coffees[7] = new coffee("Expresso Cremoso", "TRADICIONAL", "Café expresso tradicional com espuma cremosa", 9.90, "images/coffees/ExpressoCremoso.png");
 
-insert into COFFEES (name, price, description, category, image) values ("Expresso Americano", 9.90, "Expresso diluído, menos intenso que o tradicional", "TRADICIONAL", "images/coffees/Americano.png");
+insert into COFFEES (name, price, description, category, image) values ('Expresso Americano', 9.90, 'Expresso diluído, menos intenso que o tradicional', 'TRADICIONAL', 'images/coffees/Americano.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Árabe", 9.90, "Bebida preparada com grãos de café árabe e especiarias", "ESPECIAL", "images/coffees/Arabe.png");
+insert into COFFEES (name, price, description, category, image) values ('Árabe', 9.90, 'Bebida preparada com grãos de café árabe e especiarias', 'ESPECIAL', 'images/coffees/Arabe.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Café com Leite", 9.90, "Meio a meio de expresso tradicional com leite vaporizado", "COM LEITE", "images/coffees/CafeComLeite.png");
+insert into COFFEES (name, price, description, category, image) values ('Café com Leite', 9.90, 'Meio a meio de expresso tradicional com leite vaporizado', 'COM LEITE', 'images/coffees/CafeComLeite.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Expresso Gelado", 9.90, "Bebida preparada com café expresso e cubos de gelo", "GELADO", "images/coffees/CafeGelado.png");
+insert into COFFEES (name, price, description, category, image) values ('Expresso Gelado', 9.90, 'Bebida preparada com café expresso e cubos de gelo', 'GELADO', 'images/coffees/CafeGelado.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Capuccino", 9.90, "Bebida com canela feita de doses iguais de café, leite e espuma", "COM LEITE", "images/coffees/Capuccino.png");
+insert into COFFEES (name, price, description, category, image) values ('Capuccino', 9.90, 'Bebida com canela feita de doses iguais de café, leite e espuma', 'COM LEITE', 'images/coffees/Capuccino.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Chocolate Quente", 9.90, "Bebida feita com chocolate dissolvido no leite quente e café", "COM LEITE", "images/coffees/ChocolateQuente.png");
+insert into COFFEES (name, price, description, category, image) values ('Chocolate Quente', 9.90, 'Bebida feita com chocolate dissolvido no leite quente e café', 'COM LEITE', 'images/coffees/ChocolateQuente.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Cubano", 9.90, "Drink gelado de café expresso com rum, creme de leite e hortelã", "ALCOÓLICO", "images/coffees/Cubano.png");
+insert into COFFEES (name, price, description, category, image) values ('Cubano', 9.90, 'Drink gelado de café expresso com rum, creme de leite e hortelã', 'ALCOÓLICO', 'images/coffees/Cubano.png');
 
-insert into COFFEES (name, price, description, category, image) values ("Expresso Cremoso", 9.90, "Café expresso tradicional com espuma cremosa", "TRADICIONAL", "images/coffees/ExpressoCremoso.png");
+insert into COFFEES (name, price, description, category, image) values ('Expresso Cremoso', 9.90, 'Café expresso tradicional com espuma cremosa', 'TRADICIONAL', 'images/coffees/ExpressoCremoso.png');
