@@ -3,9 +3,20 @@
         <a href="/" class="logo">Simas Café</a>
         <nav>
             <?php
-            if (isset($_SESSION['user'])) {
+            if (isset($_SESSION['USER'])) {
             ?>
-                <a class='cart-link'><img src='images/icons/cart.svg' /></a><a href='logout.php'>Sair</a>
+                <a class='cart-link'><img src='images/icons/cart.svg' /></a>
+                <div class="user-menu-container">
+                    <button class="user-menu">
+                        <img src='images/icons/user.svg' />
+                        <span><?php echo $_SESSION['USER']['USERNAME']; ?></span>
+                    </button>
+                    <ul class="user-menu-list">
+                        <a href="admin.php">Painel Admin</a>
+                        <a href='logout.php'>Alterar senha</a>
+                        <a href='logout.php'>Sair</a>
+                    </ul>
+                </div>
             <?php
             } else {
             ?>
@@ -15,4 +26,9 @@
             ?>
         </nav>
     </div>
+    <script>
+        document.querySelector(".user-menu").addEventListener("click", () => {
+            document.querySelector(".user-menu-list").classList.toggle("show");
+        });
+    </script>
 </header>
