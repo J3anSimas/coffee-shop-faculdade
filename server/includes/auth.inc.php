@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
         } else {
             $passwords_match = password_verify($password, $row["PASSWORD"]);
             if ($passwords_match == true) {
-                $_SESSION["user"] = $user;
-                $_SESSION["level"] = $row["LVL"];
+                $_SESSION["USER"] = $row;
+                $_SESSION["USER"]["PASSWORD"] = "";
                 header("Location: ../index.php");
                 die();
             } else {
