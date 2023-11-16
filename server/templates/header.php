@@ -26,9 +26,5 @@
             ?>
         </nav>
     </div>
-    <script>
-        document.querySelector(".user-menu").addEventListener("click", () => {
-            document.querySelector(".user-menu-list").classList.toggle("show");
-        });
-    </script>
+    <script src="js/header.js"></script>
 </header>

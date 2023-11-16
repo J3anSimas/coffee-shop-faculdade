@@ -48,7 +48,7 @@ session_start();
                 </div>
             </div>
             <div class="coffees-list-container">
-                <h2>Nossos cafés</h2>
+                <h2>Nossos cafés auto</h2>
                 <ul class="coffees-list">
                     <?php
                     try {
@@ -68,7 +68,7 @@ session_start();
                                     <span>R$</span>
                                     <span>" . sprintf('%0.2f', $row["PRICE"]) . "</span>
                                 </span>
-                                <button><img src='images/icons/cart.svg' /></button>
+                                <button class='add-to-cart' data-id='" . $row["ID"] . "'><img src='images/icons/cart.svg' /></button>
                             </span>
                             </li>";
                         }
@@ -83,6 +83,26 @@ session_start();
             </div>
         </main>
     </div>
+    <script>
+        console.log('teste');
+        // addToCartButtons.forEach(item => {
+        //     console.log(item);
+        //     // item.addEventListener('click', event => {
+        //     //     const id = item.getAttribute('data-id');
+        //     //     const url = 'includes/addtocart.inc.php?id=' + id;
+        //     //     // fetch(url)
+        //     //     //     .then(response => response.json())
+        //     //     //     .then(data => {
+        //     //     //         if (data.status == 'success') {
+        //     //     //             alert('Produto adicionado ao carrinho');
+        //     //     //         } else {
+        //     //     //             alert('Erro ao adicionar produto ao carrinho');
+        //     //     //         }
+        //     //     //     });
+        //     //     alert(id);
+        //     // })
+        // })
+    </script>
 </body>
 
 </html>
