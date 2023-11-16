@@ -43,7 +43,7 @@ session_start();
                         </li>
                     </ul>
                 </div>
-                <div>
+                <div class="image-container">
                     <img src="images/cover.png" alt="" class="image-cover">
                 </div>
             </div>
