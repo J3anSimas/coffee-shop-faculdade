@@ -41,7 +41,7 @@ if (isset($_SESSION["level"])) {
                 </nav>
             </div>
         </header>
-        <main>
+        <main class="login-container">
             <form class="login-form" method="post" action="includes/auth.inc.php">
                 <h2>Login</h2>
                 <input type="text" placeholder="Nome de usuário" name="username">
