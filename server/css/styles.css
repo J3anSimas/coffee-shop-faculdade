@@ -3,6 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+body {
+  font-family: "Roboto", sans-serif;
+  color: #403937;
+}
+h2 {
+  color: #403937;
+  font-family: "Baloo 2", cursive;
+}
 header {
   width: 100%;
   background-color: #ebc136;

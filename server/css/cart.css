@@ -1,0 +1,108 @@
+h2 {
+  font-size: 18px;
+}
+.cart-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.additional-info-container,
+.coffees-list-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.additional-info-container > div,
+.coffees-list-info-container > div {
+  background-color: #f3f2f2;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.additional-info-container > div > span {
+  display: flex;
+  align-items: center;
+}
+
+.additional-info-container > div > span > img + span {
+  display: flex;
+  flex-direction: column;
+}
+.additional-info-container > div > span > img + span span:nth-child(2) {
+  font-size: 14px;
+  color: #574f4d;
+}
+.additional-info-container .fields-container {
+  display: grid;
+  gap: 6px;
+}
+.additional-info-container .fields-container input {
+  border: none;
+  border-radius: 6px;
+  background-color: #ededed;
+  padding: 12px;
+}
+.cart-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6e5e5;
+  border: none;
+  border-radius: 6px;
+  gap: 6px;
+  padding: 8px 4px;
+  cursor: pointer;
+}
+.coffees-list-info-container > div > ul {
+  width: 100%;
+}
+.coffees-list-info-container > div > ul > li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #e6e5e5;
+  width: 100%;
+}
+.coffees-list-info-container > div > ul > li > div:nth-child(2) {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coffees-list-info-container > div > ul > li > .cart-item-info > span {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.coffees-list-info-container .cart-item-info-name-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.coffees-list-info-container .cart-item-info-name-price p {
+  font-weight: bold;
+}
+.coffees-list-info-container .item-handler {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.coffees-list-info-container > div > ul > li .item-handler .quantity-handler {
+  display: flex;
+  align-items: center;
+  background-color: #e6e5e5;
+  border-radius: 6px;
+}
+.price-info > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #e6e5e5;
+}
