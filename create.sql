@@ -32,30 +32,25 @@ CREATE TABLE COFFEES (
 
 );
 
-CREATE TABLE ORDERS (
+CREATE TABLE CARTS (
     ID INTEGER PRIMARY KEY AUTO_INCREMENT,
     USER_ID INTEGER NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    status VARCHAR(1) NOT NULL DEFAULT 'O',
     FOREIGN KEY (USER_ID) REFERENCES USERS(ID)
 );
-CREATE TABLE ORDERS_COFFEES (
+CREATE TABLE CARTS_COFFEES (
     ID INTEGER PRIMARY KEY AUTO_INCREMENT,
-    ORDER_ID INTEGER NOT NULL,
+    CART_ID INTEGER NOT NULL,
     COFFEE_ID INTEGER NOT NULL,
     QUANTITY INTEGER NOT NULL,
+    PRICE DECIMAL(10,2) NOT NULL,
     CREATED_AT TIMESTAMP NOT NULL DEFAULT NOW(),
     UPDATED_AT TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (ORDER_ID) REFERENCES ORDERS(ID),
+    FOREIGN KEY (CART_ID) REFERENCES CARTS(ID),
     FOREIGN KEY (COFFEE_ID) REFERENCES COFFEES(ID)
 );
 
--- $coffees[0] = new coffee("Expresso Americano", "TRADICIONAL", "Expresso diluído, menos intenso que o tradicional", 9.90, "images/coffees/Americano.png");
--- $coffees[1] = new coffee("Árabe", "ESPECIAL", "Bebida preparada com grãos de café árabe e especiarias", 9.90, "images/coffees/Arabe.png");
--- $coffees[2] = new coffee("Café com Leite", "COM LEITE", "Meio a meio de expresso tradicional com leite vaporizado", 9.90, "images/coffees/CafeComLeite.png");
--- $coffees[3] = new coffee("Expresso Gelado", "GELADO", "Bebida preparada com café expresso e cubos de gelo", 9.90, "images/coffees/CafeGelado.png");
--- $coffees[4] = new coffee("Capuccino", "COM LEITE", "Bebida com canela feita de doses iguais de café, leite e espuma", 9.90, "images/coffees/Capuccino.png");
--- $coffees[5] = new coffee("Chocolate Quente", "COM LEITE", "Bebida feita com chocolate dissolvido no leite quente e café", 9.90, "images/coffees/ChocolateQuente.png");
--- $coffees[6] = new coffee("Cubano", "ALCOÓLICO", "Drink gelado de café expresso com rum, creme de leite e hortelã", 9.90, "images/coffees/Cubano.png");
--- $coffees[7] = new coffee("Expresso Cremoso", "TRADICIONAL", "Café expresso tradicional com espuma cremosa", 9.90, "images/coffees/ExpressoCremoso.png");
 
 insert into COFFEES (name, price, description, category, image) values ('Expresso Americano', 9.90, 'Expresso diluído, menos intenso que o tradicional', 'TRADICIONAL', 'images/coffees/Americano.png');
 

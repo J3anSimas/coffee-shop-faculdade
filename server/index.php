@@ -58,23 +58,25 @@ session_start();
                         $stmt->execute();
                         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($results as $row) {
-                            echo "<li>
-                            <img src='" . $row["IMAGE"] . "' alt=''>
-                            <span class='coffee-category'>" . $row["CATEGORY"] . "</span>
-                            <h2>" . $row["NAME"] . "</h2>
-                            <p class='coffee-description'>" . $row["DESCRIPTION"] . "</p>
-                            <span class='add-to-cart-container'>
-                                <span class='price-container'>
-                                    <span>R$</span>
-                                    <span>" . sprintf('%0.2f', $row["PRICE"]) . "</span>
+                    ?>
+                            <li>
+                                <img src="<?php echo $row["IMAGE"]; ?>  " alt=''>
+                                <span class='coffee-category'>"<?php echo $row["CATEGORY"]; ?> "</span>
+                                <h2><?php echo $row["NAME"]; ?></h2>
+                                <p class='coffee-description'><?php echo $row["DESCRIPTION"]; ?></p>
+                                <span class='add-to-cart-container'>
+                                    <span class='price-container'>
+                                        <span>R$</span>
+                                        <span><?php echo sprintf('%0.2f', $row["PRICE"]); ?></span>
+                                    </span>
+                                    <button class='add-to-cart-button' data-id="<?php echo $row["ID"]; ?>"><img src='images/icons/cart.svg' /></button>
                                 </span>
-                                <button class='add-to-cart' data-id='" . $row["ID"] . "'><img src='images/icons/cart.svg' /></button>
-                            </span>
-                            </li>";
+                            </li>
+                    <?php
                         }
                         $pdo = null;
                         $stmt = null;
-                        die();
+                        // die();
                     } catch (PDOException $e) {
                         echo "Failed to fetch coffees: " . $e->getMessage() . "";
                     }
@@ -84,24 +86,27 @@ session_start();
         </main>
     </div>
     <script>
-        console.log('teste');
-        // addToCartButtons.forEach(item => {
-        //     console.log(item);
-        //     // item.addEventListener('click', event => {
-        //     //     const id = item.getAttribute('data-id');
-        //     //     const url = 'includes/addtocart.inc.php?id=' + id;
-        //     //     // fetch(url)
-        //     //     //     .then(response => response.json())
-        //     //     //     .then(data => {
-        //     //     //         if (data.status == 'success') {
-        //     //     //             alert('Produto adicionado ao carrinho');
-        //     //     //         } else {
-        //     //     //             alert('Erro ao adicionar produto ao carrinho');
-        //     //     //         }
-        //     //     //     });
-        //     //     alert(id);
-        //     // })
-        // })
+        const addToCartButtons = document.querySelectorAll(".add-to-cart-button");
+        addToCartButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                try {
+                    const id = button.getAttribute("data-id");
+                    const url = `includes/addtocart.inc.php?id=${id}`;
+                    fetch(url)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                const cart_indicator = document.querySelector('#cart-indicator');
+                                cart_indicator.classList.add('show');
+                            } else {
+                                alert(data.message);
+                            }
+                        });
+                } catch (error) {
+                    console.log(error);
+                }
+            });
+        });
     </script>
 </body>
 

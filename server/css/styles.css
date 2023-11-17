@@ -35,6 +35,17 @@ header nav {
 header nav .cart-link {
   display: flex;
   align-items: center;
+  position: relative;
+}
+header nav #cart-indicator.show {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #f1576c;
+  color: #403937;
+  border-radius: 9999px;
+  padding: 4px 4px;
+  font-size: 12px;
 }
 header nav img {
   height: auto;
