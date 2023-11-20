@@ -26,7 +26,14 @@ h2 {
   display: flex;
   align-items: center;
 }
-
+.payment-method > button {
+  border: 1px solid transparent;
+}
+.payment-method > button.active {
+  background-color: #ebe5f9 !important;
+  color: #8047f8;
+  border: 1px solid #8047f8;
+}
 .additional-info-container > div > span > img + span {
   display: flex;
   flex-direction: column;
@@ -55,6 +62,19 @@ h2 {
   gap: 6px;
   padding: 8px 4px;
   cursor: pointer;
+}
+.cart-form button img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.payment-method {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.payment-method > button {
+  width: 100%;
 }
 .coffees-list-info-container > div > ul {
   width: 100%;
@@ -104,5 +124,44 @@ h2 {
   align-items: center;
   padding: 8px;
   border-radius: 6px;
-  background-color: #e6e5e5;
+  background-color: #f3f2f2;
+}
+.button-confirm {
+  background-color: #dbac2c !important;
+  color: #fff;
+  height: 46px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.error-message {
+  display: flex;
+  justify-content: center;
+  background-color: #db3737;
+  text-align: center;
+  color: white;
+  padding: 8px 0;
+}
+@media (min-width: 768px) {
+  .cart-form {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 !important;
+  }
+  .cart-form > div {
+    flex: 1;
+    padding: 40px;
+  }
+  .additional-info-container {
+    padding: 40px !important;
+  }
+  .payment-method {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .payment-method > button {
+    flex: 1;
+  }
 }

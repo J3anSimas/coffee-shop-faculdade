@@ -8,11 +8,6 @@ if (!isset($_SESSION['USER'])) {
 try {
     $coffee_id = $_GET['id'];
     $cart_id = null;
-    $query = "SELECT PRICE FROM COFFEES WHERE ID = ?;";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$_SESSION['USER']['ID']]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $coffee_price = $row['PRICE'];
 
     $query = "SELECT ID FROM CARTS WHERE USER_ID = ? AND STATUS = 'O';";
     $stmt = $pdo->prepare($query);
@@ -33,9 +28,9 @@ try {
     $stmt->execute([$cart_id, $coffee_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     if (empty($row)) {
-        $query = "INSERT INTO CARTS_COFFEES (CART_ID, COFFEE_ID, QUANTITY, PRICE) VALUES (?, ?, 1, ?);";
+        $query = "INSERT INTO CARTS_COFFEES (CART_ID, COFFEE_ID, QUANTITY) VALUES (?, ?, 1);";
         $stmt = $pdo->prepare($query);
-        $stmt->execute([$cart_id, $coffee_id, $coffee_price]);
+        $stmt->execute([$cart_id, $coffee_id]);
     } else {
         $query = "UPDATE CARTS_COFFEES SET QUANTITY = QUANTITY + 1 WHERE CART_ID = ? AND COFFEE_ID = ?;";
         $stmt = $pdo->prepare($query);
@@ -43,6 +38,5 @@ try {
     }
     echo "{ \"success\": true, \"message\": \"Item adicionado ao carrinho!\" }";
 } catch (PDOException $e) {
-    // echo "{ \"success\": false, \"message\": \"Erro ao adicionar item ao carrinho!\n" . $e->getMessage() . "\" }";
-    echo '{"success": false, "message": "Erro ao adicionar item ao carrinho!\n' . $e->getMessage() . '"}';
+    echo "{ \"success\": false, \"message\": \"Erro ao adicionar item ao carrinho!\n" . $e->getMessage() . "\" }";
 }

@@ -4,6 +4,21 @@ if (!isset($_SESSION['USER'])) {
     header('Location: login.php');
     exit();
 }
+require_once 'includes/dbh.inc.php';
+$query = "SELECT ID FROM CARTS WHERE USER_ID = ? AND STATUS = 'O';";
+$stmt = $pdo->prepare($query);
+$stmt->execute([$_SESSION['USER']['ID']]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+if (empty($row)) {
+    header("Location: index.php");
+    exit();
+} else {
+    $cart_id = $row['ID'];
+    $query = "SELECT COFFEES.ID, COFFEES.NAME, COFFEES.PRICE, COFFEES.IMAGE, CARTS_COFFEES.QUANTITY FROM CARTS_COFFEES INNER JOIN COFFEES ON CARTS_COFFEES.COFFEE_ID = COFFEES.ID WHERE CART_ID = ?;";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$cart_id]);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +28,9 @@ if (!isset($_SESSION['USER'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/cart.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>Simas Café | Carrinho</title>
 </head>
 
@@ -21,7 +39,7 @@ if (!isset($_SESSION['USER'])) {
     include "templates/header.php";
     ?>
     <main>
-        <form class="cart-form">
+        <form class="cart-form" method="post" action="includes/closeorder.inc.php">
             <div class="additional-info-container">
                 <h2>Complete seu pedido</h2>
                 <div>
@@ -33,13 +51,13 @@ if (!isset($_SESSION['USER'])) {
                         </span>
                     </span>
                     <div class="fields-container">
-                        <input type="text" placeholder="CEP">
-                        <input type="text" placeholder="Rua">
-                        <input type="text" placeholder="Número">
-                        <input type="text" placeholder="Complemento">
-                        <input type="text" placeholder="Bairro">
-                        <input type="text" placeholder="Cidade">
-                        <input type="text" placeholder="UF">
+                        <input type="text" required placeholder="CEP" maxlength="9" pattern="\d{5,5}-\d{3,3}" name="zipcode">
+                        <input type="text" required placeholder="Rua" maxlength="255" name="street">
+                        <input type="text" required placeholder="Número" maxlength="255" name="number">
+                        <input type="text" required placeholder="Complemento" maxlength="255" name="complement">
+                        <input type="text" required placeholder="Bairro" maxlength="255" name="neighborhood">
+                        <input type="text" required placeholder="Cidade" maxlength="255" name="city">
+                        <input type="text" required placeholder="UF" maxlength="2" name="uf">
                     </div>
                 </div>
                 <div>
@@ -50,9 +68,19 @@ if (!isset($_SESSION['USER'])) {
                             <span>O pagamento é feito na entrega. Escolha a forma que deseja pagar</span>
                         </span>
                     </span>
-                    <button><img src="images/icons/credit-card.svg" alt=""> Cartão de Crédito</button>
-                    <button><img src="images/icons/bank.svg" alt=""> Cartão de Débito</button>
-                    <button><img src="images/icons/cash.svg" alt=""> Dinheiro</button>
+                    <span class="payment-method">
+                        <input type="hidden" name="payment_method" required id="payment-method" pattern="^(CC|CD|D)$">
+                        <button type="button" data-type="CC"><img src="images/icons/credit-card.svg" alt=""> Cartão de Crédito</button>
+                        <button type="button" data-type="CD"><img src="images/icons/bank.svg" alt=""> Cartão de Débito</button>
+                        <button type="button" data-type="D"><img src="images/icons/cash.svg" alt=""> Dinheiro</button>
+                    </span>
+                    <?php
+                    if (isset($_GET['error'])) {
+                    ?>
+                        <span class="error-message"><?php echo $_GET['error']; ?></span>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
             <div class="coffees-list-info-container">
@@ -60,40 +88,28 @@ if (!isset($_SESSION['USER'])) {
                 <div>
                     <ul>
                         <?php
-                        require_once 'includes/dbh.inc.php';
-                        $query = "SELECT ID FROM CARTS WHERE USER_ID = ? AND STATUS = 'O';";
-                        $stmt = $pdo->prepare($query);
-                        $stmt->execute([$_SESSION['USER']['ID']]);
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                        if (!empty($row)) {
-                            $cart_id = $row['ID'];
-                            $query = "SELECT COFFEES.ID, COFFEES.NAME, COFFEES.PRICE, COFFEES.IMAGE, CARTS_COFFEES.QUANTITY FROM CARTS_COFFEES INNER JOIN COFFEES ON CARTS_COFFEES.COFFEE_ID = COFFEES.ID WHERE CART_ID = ?;";
-                            $stmt = $pdo->prepare($query);
-                            $stmt->execute([$cart_id]);
-                            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($results as $row) {
+                        foreach ($results as $row) {
                         ?>
-                                <li>
-                                    <div class="cart-item-image-container">
-                                        <img src="<?php echo $row["IMAGE"]; ?>" alt="">
+                            <li data-id="<?php echo $row["ID"] ?>">
+                                <div class="cart-item-image-container">
+                                    <img src="<?php echo $row["IMAGE"]; ?>" alt="">
+                                </div>
+                                <div>
+                                    <div class="cart-item-info-name-price">
+                                        <h2><?php echo $row["NAME"]; ?></h2>
+                                        <p>R$ <?php echo $row["PRICE"]; ?></p>
                                     </div>
-                                    <div>
-                                        <div class="cart-item-info-name-price">
-                                            <h2><?php echo $row["NAME"]; ?></h2>
-                                            <p>R$ <?php echo $row["PRICE"]; ?></p>
-                                        </div>
-                                        <span class="item-handler">
-                                            <span class="quantity-handler">
-                                                <button type="button"><img src="images/icons/minus.svg" alt=""></button>
-                                                <span><?php echo $row["QUANTITY"]; ?></span>
-                                                <button type="button"><img src="images/icons/plus.svg" alt=""></button>
-                                            </span>
-                                            <button><img src="images/icons/trash.svg" alt=""> Remover</button>
+                                    <span class="item-handler">
+                                        <span class="quantity-handler">
+                                            <button type="button" class="button-decrease-one" <?php echo $row["QUANTITY"] == 1 ? "disabled" : ""; ?>><img src="images/icons/minus.svg" alt=""></button>
+                                            <span><?php echo $row["QUANTITY"]; ?></span>
+                                            <button type="button" class="button-increase-one"><img src="images/icons/plus.svg" alt=""></button>
                                         </span>
-                                    </div>
-                                </li>
+                                        <button class="button-remove-item" type="button"><img src="images/icons/trash.svg" alt=""> Remover</button>
+                                    </span>
+                                </div>
+                            </li>
                         <?php
-                            }
                         }
                         ?>
                     </ul>
@@ -115,14 +131,71 @@ if (!isset($_SESSION['USER'])) {
                             <span>R$ 3,50</span>
                         </span>
                         <span>
-                            <span>Total</span>
-                            <span>R$ <?php echo sprintf('%0.2f', $row["TOTAL"] + 3.5); ?></span>
+                            <strong>Total</strong>
+                            <strong>R$ <?php echo sprintf('%0.2f', $row["TOTAL"] + 3.5); ?></strong>
                         </span>
                     </div>
+                    <button class="button-confirm">CONFIRMAR PEDIDO</button>
                 </div>
             </div>
         </form>
     </main>
+    <script>
+        document.querySelectorAll('.payment-method > button').forEach(currentButton => {
+            currentButton.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method > button').forEach(button => {
+                    button.classList.remove('active');
+                });
+                currentButton.classList.add('active');
+                document.querySelector('#payment-method').value = currentButton.getAttribute('data-type');
+            });
+        });
+        document.querySelectorAll('.button-remove-item').forEach(currentButton => {
+            currentButton.addEventListener('click', () => {
+                const coffeeId = currentButton.closest('li').getAttribute('data-id');
+                fetch(`includes/removefromcart.inc.php?id=${coffeeId}&remove_all=true`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.redirect) {
+                            window.location.href = 'index.php';
+                        } else {
+                            if (data.success) {
+                                currentButton.closest('li').remove();
+                            } else {
+                                alert(data.message);
+                            }
+                        }
+                    });
+            });
+        });
+        document.querySelectorAll('.quantity-handler .button-increase-one').forEach(currentButton => {
+            currentButton.addEventListener('click', () => {
+                const coffeeId = currentButton.closest('li').getAttribute('data-id');
+                fetch(`includes/addtocart.inc.php?id=${coffeeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText = parseInt(currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText) + 1;
+                            currentButton.closest('.quantity-handler').querySelector('.button-decrease-one').removeAttribute('disabled');
+                        }
+                    });
+            });
+        });
+        document.querySelectorAll('.quantity-handler .button-decrease-one').forEach(currentButton => {
+            currentButton.addEventListener('click', () => {
+                const coffeeId = currentButton.closest('li').getAttribute('data-id');
+                fetch(`includes/removefromcart.inc.php?id=${coffeeId}&remove_all=false`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText = parseInt(currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText) - 1;
+                            currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText == 1 ? currentButton.setAttribute('disabled', true) : currentButton.removeAttribute('disabled');
+
+                        }
+                    });
+            });
+        });
+    </script>
 </body>
 
 </html>

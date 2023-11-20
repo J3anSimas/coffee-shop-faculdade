@@ -91,6 +91,7 @@ session_start();
             button.addEventListener("click", () => {
                 try {
                     const id = button.getAttribute("data-id");
+                    console.log(id);
                     const url = `includes/addtocart.inc.php?id=${id}`;
                     fetch(url)
                         .then((response) => response.json())
