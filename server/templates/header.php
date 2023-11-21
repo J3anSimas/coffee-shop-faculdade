@@ -32,7 +32,7 @@
                     </button>
                     <ul class="user-menu-list">
                         <a href="admin.php">Painel Admin</a>
-                        <a href='logout.php'>Alterar senha</a>
+                        <a href='change_password.php'>Alterar senha</a>
                         <a href='logout.php'>Sair</a>
                     </ul>
                 </div>

@@ -19,14 +19,15 @@ try {
         header('Location: ../cart.php?error=Preencha todos os campos!');
         die();
     }
+    $pdo->beginTransaction();
     $query = "SELECT ID FROM CARTS WHERE STATUS = 'O' AND USER_ID = ?;";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$_SESSION['USER']['ID']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $cart_id = $row['ID'];
     if (empty($row)) {
         throw new Exception("Carrinho não encontrado!");
     }
+    $cart_id = $row['ID'];
     $query = "SELECT CC.ID, C.PRICE FROM CARTS_COFFEES CC JOIN COFFEES C ON C.ID = CC.COFFEE_ID WHERE CC.CART_ID = ?;";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$cart_id]);
@@ -39,12 +40,15 @@ try {
     $query = "UPDATE CARTS SET STATUS = 'C' WHERE ID = ?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$cart_id]);
-    $query = "INSERT INTO ORDERS (CART_ID, ZIPCODE, STREET, NUMBER, COMPLEMENT, NEIGHBORHOOD, CITY, UF, PAYMENT_METHOD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    $query = "INSERT INTO ORDERS (CART_ID, ZIP_CODE, STREET, NUMBER, COMPLEMENT, NEIGHBORHOOD, CITY, UF, PAYMENT_METHOD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$cart_id, $zipcode, $street, $number, $complement, $neighborhood, $city, $uf, $payment_method]);
-    header('Location: ../orders.php');
+    $lastInsertIndex = $pdo->lastInsertId();
+    $pdo->commit();
+    header('Location: ../order_success.php?order_id=' . $lastInsertIndex . '');
     exit();
 } catch (PDOException $e) {
+    $pdo->rollBack();
     header('Location: ../cart.php?error=Erro ao fechar pedido!\n' . $e->getMessage() . '');
     exit();
 }
