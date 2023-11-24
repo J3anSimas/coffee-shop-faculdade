@@ -1,0 +1,26 @@
+body {
+  min-height: 100dvh;
+}
+.container {
+  min-height: 100dvh;
+}
+main {
+  display: block;
+}
+.aside {
+  position: fixed;
+  top: 80px;
+  display: flex;
+  align-items: flex-start;
+  width: 96px;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  padding: 16px;
+}
+ul {
+  display: grid;
+  gap: 16px;
+}
+.main {
+  margin-left: 240px;
+}

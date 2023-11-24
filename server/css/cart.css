@@ -118,6 +118,12 @@ h2 {
   background-color: #e6e5e5;
   border-radius: 6px;
 }
+.coffees-list-info-container .button-remove-item {
+  color: #574f4d;
+  font-family: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
 .price-info > span {
   display: flex;
   justify-content: space-between;

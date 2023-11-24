@@ -9,7 +9,7 @@ if ($_SESSION["USER"]["LVL"] != "A") {
 
 <?php
 $head_title = "Admin Dashboard";
-// $head_styles = null;
+$head_styles = array("admin.css");
 include "templates/head.php";
 ?>
 
@@ -18,8 +18,30 @@ include "templates/head.php";
         <?php
         include "templates/header.php";
         ?>
+
         <main>
-            <h1>Admin Dashboard</h1>
+            <aside class="aside">
+                <ul>
+                    <li>
+                        <a href="admin.php">
+                            <img src="images/icons/dashboard.svg" alt="Dashboard">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li><a href="admin/users.php">
+                            <img src="images/icons/users.svg" alt="Usuários">
+                            <span>Usuários</span>
+                        </a></li>
+                    </a></li>
+                    <li><a href="admin/products.php">
+                            <img src="images/icons/orders.svg" alt="">
+                            <span>Pedidos</span>
+                        </a></li>
+                </ul>
+            </aside>
+            <div class="main">
+                Todo
+            </div>
         </main>
     </div>
 </body>
