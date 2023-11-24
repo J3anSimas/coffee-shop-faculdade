@@ -21,6 +21,7 @@ try {
     if (empty($row)) {
         throw new Exception("Carrinho não encontrado!");
     }
+
     if ($remove_all == 'true') {
         $query = "DELETE FROM CARTS_COFFEES WHERE CART_ID = ? AND COFFEE_ID = ?;";
         $stmt = $pdo->prepare($query);
@@ -29,12 +30,17 @@ try {
         $stmt = $pdo->prepare($query);
         $stmt->execute([$cart_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $response = array();
         if ($row['COUNT'] == 0) {
             $query = "DELETE FROM CARTS WHERE ID = ?;";
             $stmt = $pdo->prepare($query);
             $stmt->execute([$cart_id]);
             $response['redirect'] = true;
         }
+        $response['success'] = true;
+        $response['message'] = "Item removido do carrinho\n";
+        echo json_encode($response);
+        exit();
     } else {
 
         $query = "SELECT QUANTITY FROM CARTS_COFFEES WHERE CART_ID = ? AND COFFEE_ID = ?;";
@@ -48,8 +54,12 @@ try {
             $stmt = $pdo->prepare($query);
             $stmt->execute([$cart_id, $coffee_id]);
         }
+        $response = array();
+        $response['success'] = true;
+        $response['message'] = "Item removido do carrinho\n";
+        echo json_encode($response);
+        exit();
     }
-    header('Location: ../index.php');
 } catch (PDOException $e) {
     $response = array();
     $response['success'] = false;
