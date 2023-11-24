@@ -9,27 +9,32 @@ if (!isset($_POST['current_password']) || !isset($_POST['password']) || !isset($
     header('Location: ../change_password.php?error=Campos obrigatórios não preenchidos!');
     die();
 }
-$current_password = $_POST['current_password'];
-$password = $_POST['password'];
-$confirm_password = $_POST['password_confirm'];
-$query = "SELECT PASSWORD FROM USERS WHERE ID = ?;";
-$stmt = $pdo->prepare($query);
-$stmt->execute([$_SESSION['USER']['ID']]);
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$passwords_match = password_verify($password, $row["PASSWORD"]);
-if ($passwords_match == true) {
-    if ($password == $confirm_password) {
-        $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $query = "UPDATE USERS SET PASSWORD = ? WHERE ID = ?;";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$password_hash, $_SESSION['USER']['ID']]);
-        header('Location: ../change_password.php?success=Senha alterada com sucesso!');
-        die();
+try {
+    $current_password = $_POST['current_password'];
+    $password = $_POST['password'];
+    $password_confirm = $_POST['password_confirm'];
+    $query = "SELECT PASSWORD FROM USERS WHERE ID = ?;";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$_SESSION['USER']['ID']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $passwords_match = password_verify($current_password, $row["PASSWORD"]);
+    if ($passwords_match == true) {
+        if ($password == $password_confirm) {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+            $query = "UPDATE USERS SET PASSWORD = ? WHERE ID = ?;";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$password_hash, $_SESSION['USER']['ID']]);
+            header('Location: ../change_password.php?success=Senha alterada com sucesso!');
+            die();
+        } else {
+            header('Location: ../change_password.php?error=Senhas não conferem!');
+            die();
+        }
     } else {
-        header('Location: ../change_password.php?error=Senhas não conferem!');
+        header('Location: ../change_password.php?error=Senha atual incorreta!');
         die();
     }
-} else {
-    header('Location: ../change_password.php?error=Senha atual incorreta!');
+} catch (PDOException $e) {
+    header('Location: ../change_password.php?error=Erro ao alterar senha! ' . $e->getMessage());
     die();
 }
