@@ -111,7 +111,7 @@ include "templates/head.php";
                     <div class="price-info">
                         <span>
                             <span>Total de itens</span>
-                            <span>R$
+                            <span class="total-items">R$
                                 <?php
                                 $query = "SELECT SUM(COFFEES.PRICE * CARTS_COFFEES.QUANTITY) AS TOTAL FROM CARTS_COFFEES INNER JOIN COFFEES ON CARTS_COFFEES.COFFEE_ID = COFFEES.ID WHERE CART_ID = ?;";
                                 $stmt = $pdo->prepare($query);
@@ -123,7 +123,7 @@ include "templates/head.php";
                         </span>
                         <span>
                             <span>Entrega</span>
-                            <span>R$ 3,50</span>
+                            <span>R$ 3.50</span>
                         </span>
                         <span>
                             <strong>Total</strong>
@@ -151,11 +151,13 @@ include "templates/head.php";
                 fetch(`includes/removefromcart.inc.php?id=${coffeeId}&remove_all=true`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data.redirect)
                         if (data.redirect) {
                             window.location.href = 'index.php';
                         } else {
                             if (data.success) {
                                 currentButton.closest('li').remove();
+                                getTotalPrice();
                             } else {
                                 alert(data.message);
                             }
@@ -171,7 +173,8 @@ include "templates/head.php";
                     .then(data => {
                         if (data.success) {
                             currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText = parseInt(currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText) + 1;
-                            currentButton.closest('.quantity-handler').querySelector('.button-decrease-one').removeAttribute('disabled');
+                            currentButton.closest('li').querySelector('.button-decrease-one').removeAttribute('disabled');
+                            getTotalPrice();
                         }
                     });
             });
@@ -185,11 +188,22 @@ include "templates/head.php";
                         if (data.success) {
                             currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText = parseInt(currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText) - 1;
                             currentButton.closest('li').querySelector('.quantity-handler > span:nth-child(2)').innerText == 1 ? currentButton.setAttribute('disabled', true) : currentButton.removeAttribute('disabled');
-
+                            getTotalPrice();
                         }
                     });
             });
         });
+
+        function getTotalPrice() {
+            fetch(`includes/get_total_price_cart.inc.php?cart_id=${<?php echo $cart_id; ?>}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector('.total-items').innerText = `R$ ${Number(data.total).toFixed(2)}`;
+                        document.querySelector('.price-info > span:nth-child(3) > strong:nth-child(2)').innerText = `R$ ${(3.5 + Number(data.total)).toFixed(2)}`;
+                    }
+                });
+        }
     </script>
 </body>
 
