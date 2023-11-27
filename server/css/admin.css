@@ -6,21 +6,87 @@ body {
 }
 main {
   display: block;
+  padding: 0;
 }
 .aside {
   position: fixed;
   top: 80px;
   display: flex;
   align-items: flex-start;
-  width: 96px;
+  width: 80px;
   height: 100%;
-  border-right: 1px solid #ccc;
-  padding: 16px;
+  padding: 8px;
+  background-color: #f3f2f2;
 }
-ul {
+.aside ul {
   display: grid;
   gap: 16px;
+  width: 100%;
+}
+.aside ul li a {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #403937;
+  width: 100%;
+}
+.aside ul li a img {
+  width: 32px;
+}
+.aside ul li a span {
+  display: none;
 }
 .main {
-  margin-left: 240px;
+  margin-left: 80px;
+  padding: 8px;
+}
+.main ul {
+  display: grid;
+  gap: 8px;
+}
+.main ul li a {
+  color: #403937;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #f3f2f2;
+  font-size: 14px;
+  border-radius: 6px;
+}
+.main ul li .address-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.main ul li .price-container {
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .aside {
+    width: 200px;
+  }
+  .aside ul li a {
+    justify-content: flex-start;
+  }
+  .aside ul li a span {
+    display: inline;
+  }
+  .main {
+    margin-left: 200px;
+  }
+
+  /* .main ul li a {
+    height: 80px;
+    justify-content: flex-start;
+  } */
+  .main ul li .address-info {
+    gap: 8px;
+  }
+  .main ul li .price-container {
+    font-size: 20px;
+  }
 }
