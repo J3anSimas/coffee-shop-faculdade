@@ -48,11 +48,9 @@ $order_id = $_GET["order_id"];
                     <span>Pendente</span>
                 </li>
             </ul>
-            <span>
-                <a href="">Concluir Pedido</a>
-            </span>
+            <a href="/" class="complete-order">Concluir Pedido</a>
 
-            <table>
+            <table class="order-table">
                 <thead>
                     <tr>
                         <th>Produto</th>
@@ -70,12 +68,12 @@ $order_id = $_GET["order_id"];
                     foreach ($result as $row) {
                     ?>
                         <tr>
-                            <td>
+                            <td class="prod-cell">
                                 <img src="<?php echo $row["IMAGE"] ?>" alt="">
                                 <span><?php echo $row["NAME"] ?> </span>
                             </td>
                             <td><?php echo $row["QUANTITY"] ?></td>
-                            <td><?php echo $row["PRICE"] ?></td>
+                            <td>R$ <?php echo $row["PRICE"] ?></td>
                         </tr>
                     <?php
                     }

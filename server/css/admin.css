@@ -16,12 +16,18 @@ main {
   width: 80px;
   height: 100%;
   padding: 8px;
+  padding-top: 32px;
   background-color: #f3f2f2;
+  justify-content: center;
 }
 .aside ul {
   display: grid;
   gap: 16px;
   width: 100%;
+}
+.aside ul li {
+  display: flex;
+  justify-content: center;
 }
 .aside ul li a {
   justify-content: center;

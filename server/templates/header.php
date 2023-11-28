@@ -23,7 +23,7 @@
                     <?php
                     }
                     ?>
-                    <img src='images/icons/cart.svg' />
+                    <img style="width: 28px; height: auto;" src='images/icons/cart.svg' />
                 </a>
                 <div class="user-menu-container">
                     <button class="user-menu">
