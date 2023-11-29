@@ -1,0 +1,14 @@
+.main {
+  display: grid;
+  gap: 8px;
+}
+.new-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  color: #403937;
+  border-radius: 6px;
+  padding: 6px;
+  font-weight: bold;
+}

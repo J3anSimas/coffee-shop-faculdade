@@ -22,7 +22,7 @@ include "templates/head.php";
         <main class="login-container">
             <form class="login-form" method="post" action="includes/auth.inc.php">
                 <h2>Login</h2>
-                <input type="text" placeholder="Nome de usuário" name="username">
+                <input type="text" placeholder="Nome de usuário" name="email">
                 <input type="password" placeholder="Senha" name="password">
                 <button type="submit">Entrar</button>
                 <?php

@@ -1,7 +1,7 @@
 <?php
 session_start();
-if ($_SESSION["USER"]["LVL"] != "A") {
-    header("Location: login.php");
+if (!isset($_SESSION["USER"]["LVL"]) || $_SESSION["USER"]["LVL"] != "A") {
+    header("Location: index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -26,12 +26,22 @@ include "templates/head.php";
                 <ul>
                     <?php
                     require_once "includes/dbh.inc.php";
-                    $sql = "SELECT * FROM ORDERS ORDER BY ID DESC";
-                    $stmt = $pdo->prepare($sql);
+                    $query = "SELECT * FROM ORDERS ORDER BY ID DESC";
+                    $stmt = $pdo->prepare($query);
                     $stmt->execute();
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result as $row) {
-                        $query = "SELECT SUM(COFFEES.PRICE * CARTS_COFFEES.QUANTITY) AS TOTAL FROM CARTS_COFFEES INNER JOIN COFFEES ON CARTS_COFFEES.COFFEE_ID = COFFEES.ID WHERE CART_ID = ?;";
+                        $query =
+                            "SELECT 
+                                SUM(TOTAL) AS SOMA 
+                            FROM (
+                                SELECT 
+                                    PRICE * QUANTITY AS TOTAL 
+                                FROM 
+                                    CARTS_COFFEES 
+                                WHERE 
+                                    CART_ID = ?
+                            ) AS GET_PRICE_TIMES_QUANTITY;";
                         $stmt = $pdo->prepare($query);
                         $stmt->execute([$row["CART_ID"]]);
                         $price = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -41,9 +51,22 @@ include "templates/head.php";
                                 <div class="address-info">
                                     <span><?php echo $row["NEIGHBORHOOD"] ?></span>
                                     <span><?php echo $row['CITY'] . " - " . $row["UF"]  ?></span>
+                                    <span>
+                                        <?php
+                                        if ($row["STATUS"] == "P") {
+                                            echo "Pendente";
+                                        } else if ($row["STATUS"] == "C") {
+                                            echo "Concluído";
+                                        } else if ($row["STATUS"] == "X") {
+                                            echo "Cancelado";
+                                        } else {
+                                            echo "Erro";
+                                        }
+                                        ?>
+                                    </span>
                                 </div>
                                 <div class="price-container">
-                                    <span>R$ <?php echo $price["TOTAL"] ?></span>
+                                    <span>R$ <?php echo $price["SOMA"] ?></span>
                                 </div>
                             </a>
                         </li>

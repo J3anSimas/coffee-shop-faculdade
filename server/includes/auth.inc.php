@@ -4,16 +4,16 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     die();
 } else {
     require_once "dbh.inc.php";
-    $username = $_POST["username"];
+    $email = $_POST["email"];
     $password = $_POST["password"];
-    if (empty($username) || empty($password)) {
+    if (empty($email) || empty($password)) {
         header("Location: ../login.php?error=emptyfields");
         die();
     } else {
         session_start();
-        $query = "select ID, USERNAME, PASSWORD, LVL from USERS where UPPER(USERNAME) = (?);";
+        $query = "select ID, EMAIL, PASSWORD, LVL from USERS where UPPER(EMAIL) = (?);";
         $stmt = $pdo->prepare($query);
-        $stmt->execute([$username]);
+        $stmt->execute([$email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (empty($row)) {
             header("Location: ../login.php?error=wrongcredentials");

@@ -7,7 +7,7 @@
             </a>
         </li>
         <li>
-            <a href="admin/users.php">
+            <a href="admin_users.php">
                 <img src="images/icons/user_purple.svg" alt="Usuários">
                 <span>Usuários</span>
             </a>

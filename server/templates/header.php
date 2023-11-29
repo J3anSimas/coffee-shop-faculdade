@@ -28,10 +28,16 @@
                 <div class="user-menu-container">
                     <button class="user-menu">
                         <img src='images/icons/user.svg' />
-                        <span><?php echo $_SESSION['USER']['USERNAME']; ?></span>
+                        <span><?php echo explode('@', $_SESSION['USER']['EMAIL'])[0]; ?></span>
                     </button>
                     <ul class="user-menu-list">
-                        <a href="admin.php">Painel Admin</a>
+                        <?php
+                        if ($_SESSION['USER']['LVL'] == 'A') {
+                        ?>
+                            <a href="admin.php">Painel Admin</a>
+                        <?php
+                        }
+                        ?>
                         <a href='change_password.php'>Alterar senha</a>
                         <a href='logout.php'>Sair</a>
                     </ul>
