@@ -9,12 +9,12 @@ CREATE TABLE USERS (
 );
 
 INSERT INTO USERS (
- USERNAME,
+ NAME,
  PASSWORD,
  EMAIL,
  LVL
 ) VALUES (
-	'jeansimas',
+	'Jean Simas',
     '$2y$10$lMGTiXKYzlVi8vqaTk.hMemnP1N5w9yby4.RWoyv5M1.g97Y05hjG', 
     'jean@gmail.com',
     'A'
